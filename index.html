@@ -10,7 +10,7 @@
       margin-top: 1.0em;
       background-color: #5e5e5e;
       font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
+      color: black;
     }
     #container {
       margin: 0 auto;
@@ -21,17 +21,19 @@
     h1 a { text-decoration: none }
     h2 { font-size: 1.5em; color: #a1a1a1; }
     h3 { text-align: center; color: #a1a1a1; }
-    a { color: #a1a1a1; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    a { color: black; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; }
     .download { float: right; }
     pre { background: #000; color: #fff; padding: 15px;}
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
+    .footer { text-align:center; padding-top:30px;}
   </style>
 </head>
 
 <body>
+<!--
   <a href="https://github.com/penk/qml-handwriting"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+-->
 
   <div id="container">
 
@@ -42,67 +44,46 @@
         <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
     </div>
 
-    <h1><a href="https://github.com/penk/qml-handwriting">QML Handwriting</a>
-      <span class="small">by <a href="https://github.com/penk">penk</a></span></h1>
+    <h1><a href="https://github.com/penk/qml-handwriting">QML Handwriting</a></h1>
 
     <div class="description">
-      Open source handwriting recognition keyboard based on Qt/QML https://github.com/penk/qml-handwriting/raw/master/asset/screenshot.png
+      Open source handwriting recognition keyboard based on Qt/QML 
     </div>
 
-    
-      <p>Built out of QML, ShortStrawJS and Zinnia.
-Features
+    <img src="https://github.com/penk/qml-handwriting/raw/master/asset/screenshot.png" style="margin-bottom: 30px;">
 
-    Pure QML-based layout, can integrate with input method panel
-    Supports Chinese (Traditional/Simplified) and Japanese, models and engines from Zinnia
-    Strokes detection and recognition based on ShortStraw algorithm
-</p>
-    
+<p></p>
 
-    
-      <h2>Dependencies</h2>
-      <p>1. Zinnia library
-2. QML Canvas plugin
-3. handwriting models </p>
+<h2>Features</h2>
+
+<ul>
+<li>Pure QML-based layout, can integrate with input method panel
+<li>Supports Chinese (Traditional/Simplified) and Japanese, models and engines from Zinnia
+<li>Strokes detection and recognition based on ShortStraw algorithm
+</ul>
     
 
     
-      <h2>Install</h2>
-      <p>1. Install Zinnia library
-2. Install QML Canvas plugin
-3. Check-out source code and compile: git clone https://github.com/penk/qml-handwriting.git
-4. Download handwriting models, default path is /usr/share/tegaki/models/zinnia/handwriting-zh_TW.model
-</p>
+<h2>Dependencies</h2>
+<ol><li>Zinnia library
+<li>QML Canvas plugin
+<li>handwriting models </ol>
     
 
-    
-      <h2>License</h2>
-      <p>The source codes are, unless otherwise specified, distributed under the terms of the GNU Lesser General Public License. </p>
-    
+<h2>Contact</h2>
+      <p>Ping-Hsun Chen <a href="https://twitter.com/penk">@penk</a>
+<br/>      </p>
 
-    
-      <h2>Authors</h2>
-      <p>Chen, Ping-Hsun (penkia@gmail.com)<br/>      </p>
-    
-
-    
-      <h2>Contact</h2>
-      <p>Chen, Ping-Hsun (penkia@gmail.com)<br/>      </p>
-    
-
-    <h2>Download</h2>
+<h2>Download</h2>
     <p>
       You can download this project in either
       <a href="https://github.com/penk/qml-handwriting/zipball/master">zip</a> or
-      <a href="https://github.com/penk/qml-handwriting/tarball/master">tar formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
+      <a href="https://github.com/penk/qml-handwriting/tarball/master">tar</a> formats, and clone th project by running:
       <pre>$ git clone git://github.com/penk/qml-handwriting</pre>
     </p>
 
     <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/penk/qml-handwriting">penk/qml-handwriting</a>
+      Copyright (C) 2012 Ping-Hsun Chen &lt;<a href="mailto:penkia@gmail.com">penkia@gmail.com</a>&gt;
     </div>
 
   </div>
