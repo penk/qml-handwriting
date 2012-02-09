@@ -6,7 +6,7 @@ import "js/script.js" as Script
 
 Canvas {
     id:canvas
-    color: "#D0D4D8"
+    color: "transparent"
 
     property int paintX
     property int paintY
