@@ -1,19 +1,17 @@
-import "Canvas"
-import Qt 4.7
+import QtQuick 2.2
 
 import "js/shortstraw.js" as Straw
 import "js/script.js" as Script
 
 Canvas {
     id:canvas
-    color: "transparent"
 
     property int paintX
     property int paintY
     property int count: 0
     property int lineWidth: 5
-    property variant drawColor: "black"
-    property variant ctx: getContext("2d");
+    property string drawColor: "black"
+//    property variant ctx: getContext("2d")
 
     property int strokes: 0
 
@@ -23,17 +21,14 @@ Canvas {
         anchors.fill: parent
         onClicked: drawPoint();
         onPositionChanged:  {
-            if (mousearea.pressed) {
-                drawLineSegment();
-                Script.addItem(mouseX, mouseY);
-            }
             paintX = mouseX;
             paintY = mouseY;
-
+            requestPaint()
         }
 
         onReleased: {
             var array = Straw.shortStraw(Script.getList());
+            var ctx = canvas.getContext("2d")
 
             ctx.beginPath();
             ctx.strokeStyle = 'red';
@@ -54,23 +49,34 @@ Canvas {
         }
     }
 
+    onPaint: {
+        if (mousearea.pressed) {
+            var ctx = getContext("2d")
+            ctx.beginPath();
+            ctx.strokeStyle = drawColor
+            ctx.lineWidth = lineWidth
+            ctx.moveTo(paintX, paintY);
+            ctx.lineTo(mousearea.mouseX, mousearea.mouseY);
+            ctx.stroke();
+            ctx.closePath();
+            Script.addItem(paintX, paintY);
+        }
+    }
+
     function drawLineSegment() {
-        ctx.beginPath();
-        ctx.strokeStyle = drawColor
-        ctx.lineWidth = lineWidth
-        ctx.moveTo(paintX, paintY);
-        ctx.lineTo(mousearea.mouseX, mousearea.mouseY);
-        ctx.stroke();
-        ctx.closePath();
     }
 
     function drawPoint() {
+        var ctx = canvas.getContext("2d")
+
         ctx.lineWidth = lineWidth
         ctx.fillStyle = drawColor
         ctx.fillRect(mousearea.mouseX, mousearea.mouseY, 2, 2);
     }
 
     function clear() {
+        var ctx = canvas.getContext("2d")
+
         strokes=0;
         text.text = "";
         Zinnia.clear();
