@@ -11,7 +11,8 @@ int main(int argc, char *argv[]) {
     QQuickView view;
     HandwritingEngine data;
 
-    data.loadModel("/home/greys/Downloads/zinnia-tomoe-0.6.0-20080911/handwriting-zh_CN.model");
+    data.loadModel(QStringLiteral("/usr/share/tegaki/models/zinnia/handwriting-zh_TW.model"));
+
     view.rootContext()->setContextProperty("Zinnia", &data);
     view.setSource(QUrl::fromLocalFile("main.qml"));
     view.show();

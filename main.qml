@@ -8,14 +8,16 @@ Item {
 
     Image { source: "asset/bg.png"; anchors.fill: parent; }
 
+    // Drawing zone for Text recognition
     Writing {
         id:canvas
-        width: 369;
-        height: 263;
+        width: Zinnia.drawing_width;
+        height: Zinnia.drawing_height;
         x: 200
         y: 0
     }
 
+    // Presenting the results on the right
     Flow {
         anchors.top: root.top;
         anchors.left: canvas.right
@@ -26,7 +28,7 @@ Item {
             delegate: Item {
                 id: delegateItem
                 width: 99
-                height: text.height
+                height: delegateText.height
                 Rectangle{
                     id: delegateBackground
                     anchors.fill: parent;
@@ -34,7 +36,7 @@ Item {
                     opacity: .5
                 }
                 Text {
-                    id: text
+                    id: delegateText
                     width: parent.width
                     font.pointSize: 42
                     text: modelData

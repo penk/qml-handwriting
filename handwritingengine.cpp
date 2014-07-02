@@ -4,15 +4,19 @@
 
 HandwritingEngine::HandwritingEngine(QObject *parent) :
     QObject(parent)
+  , m_results_size(8)
+  , m_drawing_height(263)
+  , m_drawing_width(369)
 {
     m_recognizer = zinnia::Recognizer::create();
     m_character = zinnia::Character::create();
     m_character->clear();
 
-    m_character->set_width(300);
-    m_character->set_height(300);
+    m_character->set_height(m_drawing_height);
+    m_character->set_width(m_drawing_width);
 }
 
+// Load the language model for text recognition
 bool HandwritingEngine::loadModel(const QString model)
 {
     if (!m_recognizer->open(model.toLocal8Bit())) {
@@ -23,34 +27,65 @@ bool HandwritingEngine::loadModel(const QString model)
     return true;
 }
 
+// Process the drawn lines to produces results from the model
 QStringList HandwritingEngine::query(int s, int x, int y)
 {
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
-    m_results.clear();
+    m_results_list.clear();
+    emit resultsChanged(m_results_list);
+
+    // add a line to the current character
     m_character->add(s, x, y);
 
-    m_result = m_recognizer->classify(*m_character, 8);
+    // based on current character being drawn, we get some result
+    m_result = m_recognizer->classify(*m_character, m_results_size);
     if (!m_result)
         qDebug("can't find m_result");
     else
     {
         for (u_int32_t i = 0; i < m_result->size(); ++i)
         {
-            qDebug() << "m_result found : " << QString::fromLocal8Bit(m_result->value(i));
-            m_results << QString::fromLocal8Bit(m_result->value(i));
-            emit resultsChanged(m_results);
+//            qDebug() << "m_result found : " << QString::fromLocal8Bit(m_result->value(i));
+            m_results_list << QString::fromLocal8Bit(m_result->value(i));
+            emit resultsChanged(m_results_list);
         }
     }
-    return m_results;
+    return m_results_list;
 }
 
 void HandwritingEngine::clear()
 {
     m_character->clear();
+    m_results_list.clear();
+    emit resultsChanged(m_results_list);
 }
 
 QStringList HandwritingEngine::results() const
 {
-    return m_results;
+    return m_results_list;
+}
+
+int HandwritingEngine::drawing_height() const
+{
+    return m_drawing_height;
+}
+
+int HandwritingEngine::drawing_width() const
+{
+    return m_drawing_width;
+}
+
+void HandwritingEngine::setDrawing_height(const int height)
+{
+    m_drawing_height = height;
+    m_character->set_height(m_drawing_height);
+    emit drawing_heightChanged(m_drawing_height);
+}
+
+void HandwritingEngine::setDrawing_width(const int width)
+{
+    m_drawing_width = width;
+    m_character->set_width(m_drawing_width);
+    emit drawing_widthChanged(m_drawing_width);
 }
