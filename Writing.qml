@@ -36,8 +36,7 @@ Canvas {
             ctx.lineWidth = 2;
             for (var i = 0; i < array.length; i++) {
                 console.log("strokes "+strokes+": " + array[i].x + ", "+ array[i].y );
-                text.text = Zinnia.query(strokes, array[i].x, array[i].y);
-
+                Zinnia.query(strokes, array[i].x, array[i].y);
                 if (i>0) ctx.lineTo(array[i].x, array[i].y);
             }
 
@@ -78,7 +77,6 @@ Canvas {
         var ctx = canvas.getContext("2d")
 
         strokes=0;
-        text.text = "";
         Zinnia.clear();
         ctx.clearRect(0, 0, width, height);
     }

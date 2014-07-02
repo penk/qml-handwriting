@@ -1,12 +1,12 @@
-import QtQuick 2.0
+import QtQuick 2.2
 
 Item {
     id:root
     width:768
     height:263
+    anchors.margins: 4
 
     Image { source: "asset/bg.png"; anchors.fill: parent; }
-    anchors.margins: 4
 
     Writing {
         id:canvas
@@ -16,17 +16,39 @@ Item {
         y: 0
     }
 
-    Text { id: text; 
-        width: 140;
-        font.family: "Helvetica"
-        font.pointSize: 42
-        wrapMode: Text.Wrap;
-        anchors.top: parent.top;
-        anchors.right: parent.right;
-        anchors.rightMargin: 20;
-        anchors.topMargin: -10;
-        text: "" 
-    } 
+    Flow {
+        anchors.top: root.top;
+        anchors.left: canvas.right
+        anchors.right: root.right
+
+        Repeater {
+            model: Zinnia.results
+            delegate: Item {
+                id: delegateItem
+                width: 99
+                height: text.height
+                Rectangle{
+                    id: delegateBackground
+                    anchors.fill: parent;
+                    color: "transparent"
+                    opacity: .5
+                }
+                Text {
+                    id: text
+                    width: parent.width
+                    font.pointSize: 42
+                    text: modelData
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onPressed: delegateBackground.color = "black"
+                    onReleased: delegateBackground.color = "transparent"
+                    onClicked: console.log(modelData)
+                }
+            }
+        }
+    }
 
     Item {
         id:clearbutton
