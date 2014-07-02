@@ -15,6 +15,8 @@ Item {
         height: Zinnia.drawing_height;
         x: 200
         y: 0
+        // set the handwritingEngine in the writing zone
+        engine: Zinnia
     }
 
     // Presenting the results on the right

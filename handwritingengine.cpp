@@ -7,8 +7,11 @@ HandwritingEngine::HandwritingEngine(QObject *parent) :
   , m_results_size(8)
   , m_drawing_height(263)
   , m_drawing_width(369)
+  , m_model_path("/usr/share/tegaki/models/zinnia/handwriting-zh_TW.model")
 {
     m_recognizer = zinnia::Recognizer::create();
+    loadModel(m_model_path);
+
     m_character = zinnia::Character::create();
     m_character->clear();
 
@@ -30,8 +33,6 @@ bool HandwritingEngine::loadModel(const QString model)
 // Process the drawn lines to produces results from the model
 QStringList HandwritingEngine::query(int s, int x, int y)
 {
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-
     m_results_list.clear();
     emit resultsChanged(m_results_list);
 

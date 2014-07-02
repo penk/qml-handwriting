@@ -12,6 +12,9 @@ Canvas {
     property int lineWidth: 5
     property string drawColor: "black"
 
+    // required to work (handwritingEngine)
+    property QtObject engine
+
     property int strokes: 0
 
     MouseArea {
@@ -19,8 +22,12 @@ Canvas {
         hoverEnabled:true
         anchors.fill: parent
         onClicked: drawPoint();
+
         onPositionChanged:  {
             requestPaint()
+        }
+
+        onPressed: {
             paintX = mouseX;
             paintY = mouseY;
         }
@@ -35,7 +42,7 @@ Canvas {
             ctx.lineWidth = 2;
             for (var i = 0; i < array.length; i++) {
                 //                console.log("strokes "+strokes+": " + array[i].x + ", "+ array[i].y );
-                Zinnia.query(strokes, array[i].x, array[i].y);
+                engine.query(strokes, array[i].x, array[i].y);
                 if (i > 0)
                     ctx.lineTo(array[i].x, array[i].y);
             }
@@ -52,14 +59,16 @@ Canvas {
         // draw segments
         if (mousearea.pressed) {
             var ctx = getContext("2d")
-            ctx.beginPath();
-            ctx.strokeStyle = "black"
+            ctx.strokeStyle = drawColor
             ctx.lineWidth = lineWidth
-            ctx.moveTo(paintX, paintY);
-            ctx.lineTo(mousearea.mouseX, mousearea.mouseY);
-            ctx.stroke();
-            ctx.closePath();
-            Script.addItem(paintX, paintY);
+            ctx.beginPath()
+            ctx.moveTo(paintX, paintY)
+            paintX = mousearea.mouseX;
+            paintY = mousearea.mouseY;
+            ctx.lineTo(mousearea.mouseX, mousearea.mouseY)
+            ctx.stroke()
+            ctx.closePath()
+            Script.addItem(paintX, paintY)
         }
     }
 
@@ -71,11 +80,12 @@ Canvas {
         ctx.fillRect(mousearea.mouseX, mousearea.mouseY, 2, 2);
     }
 
+    // reset everything
     function clear() {
         var ctx = canvas.getContext("2d")
 
         strokes = 0;
-        Zinnia.clear();
+        engine.clear();
         ctx.clearRect(0, 0, width, height);
     }
 }

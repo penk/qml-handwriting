@@ -41,6 +41,7 @@ private:
     int                 m_results_size;
     int                 m_drawing_height;
     int                 m_drawing_width;
+    QString             m_model_path;
 };
 
 #endif // HandwritingEngine_H
