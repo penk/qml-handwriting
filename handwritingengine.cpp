@@ -8,6 +8,7 @@ HandwritingEngine::HandwritingEngine(QObject *parent) :
   , m_drawing_height(263)
   , m_drawing_width(369)
   , m_model_path("/usr/share/tegaki/models/zinnia/handwriting-zh_TW.model")
+  , m_loaded(false)
 {
     m_recognizer = zinnia::Recognizer::create();
     loadModel(m_model_path);
@@ -24,10 +25,12 @@ bool HandwritingEngine::loadModel(const QString model)
 {
     if (!m_recognizer->open(model.toLocal8Bit())) {
         qDebug("can't load model file");
-        return false;
+        m_loaded = false;
+        return m_loaded;
     }
     qDebug() << "model" << model  <<  " loaded";
-    return true;
+    m_loaded = true;
+    return m_loaded;
 }
 
 // Process the drawn lines to produces results from the model
@@ -75,6 +78,11 @@ int HandwritingEngine::drawing_height() const
 int HandwritingEngine::drawing_width() const
 {
     return m_drawing_width;
+}
+
+bool HandwritingEngine::loaded() const
+{
+    return m_loaded;
 }
 
 void HandwritingEngine::setDrawing_height(const int height)

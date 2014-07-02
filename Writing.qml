@@ -1,7 +1,6 @@
 import QtQuick 2.2
 
 import "js/shortstraw.js" as Straw
-import "js/script.js" as Script
 
 Canvas {
     id:canvas
@@ -9,13 +8,23 @@ Canvas {
     property int paintX
     property int paintY
     property int count: 0
+    property int strokes: 0
     property int lineWidth: 5
     property string drawColor: "black"
+    property variant myArray: []
 
     // required to work (handwritingEngine)
     property QtObject engine
 
-    property int strokes: 0
+    function addItem(x, y) {
+        // Properties in QML are not real JavaScript arrays,
+        // but sort of pretend to be.
+        // They cannot be mutated.
+        // Workaround :
+        var tmp = myArray;
+        tmp.push({'x':x, 'y':y})
+        myArray = tmp;
+    }
 
     MouseArea {
         id:mousearea
@@ -33,7 +42,7 @@ Canvas {
         }
 
         onReleased: {
-            var array = Straw.shortStraw(Script.getList());
+            var array = Straw.shortStraw(myArray);
             var ctx = getContext("2d")
 
             ctx.beginPath();
@@ -50,7 +59,7 @@ Canvas {
             ctx.stroke();
             ctx.closePath();
 
-            Script.clear();
+            myArray = [];
             strokes++;
         }
     }
@@ -68,7 +77,7 @@ Canvas {
             ctx.lineTo(mousearea.mouseX, mousearea.mouseY)
             ctx.stroke()
             ctx.closePath()
-            Script.addItem(paintX, paintY)
+            addItem(paintX, paintY)
         }
     }
 

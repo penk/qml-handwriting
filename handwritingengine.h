@@ -12,6 +12,7 @@ class HandwritingEngine : public QObject
     Q_PROPERTY(QStringList results READ results NOTIFY resultsChanged)
     Q_PROPERTY(int drawing_height READ drawing_height WRITE setDrawing_height NOTIFY drawing_heightChanged)
     Q_PROPERTY(int drawing_width READ drawing_width WRITE setDrawing_width NOTIFY drawing_widthChanged)
+    Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
 public:
     explicit HandwritingEngine(QObject *parent = 0);
 
@@ -22,11 +23,13 @@ public:
     QStringList results() const;
     int         drawing_height() const;
     int         drawing_width() const;
+    bool        loaded() const;
 
 signals:
     QStringList resultsChanged(QStringList);
     int         drawing_heightChanged(int);
     int         drawing_widthChanged(int);
+    bool        loadedChanged(bool);
 
 public slots:
     void    setDrawing_height(const int height);
@@ -42,6 +45,7 @@ private:
     int                 m_drawing_height;
     int                 m_drawing_width;
     QString             m_model_path;
+    bool                m_loaded;
 };
 
 #endif // HandwritingEngine_H
