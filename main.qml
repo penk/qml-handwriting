@@ -48,6 +48,7 @@ Item {
                     anchors.fill: parent
                     onPressed: delegateBackground.color = "black"
                     onReleased: delegateBackground.color = "transparent"
+                    // Print the selected result
                     onClicked: console.log(modelData)
                 }
             }
