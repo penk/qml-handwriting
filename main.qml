@@ -1,33 +1,59 @@
-import "Canvas"
-import Qt 4.7
+import QtQuick 2.2
 
 Item {
     id:root
     width:768
     height:263
-
-    Image { source: "asset/bg.png"; anchors.fill: parent; }
     anchors.margins: 4
 
+    Image { source: "asset/bg.png"; anchors.fill: parent; }
+
+    // Drawing zone for Text recognition
     Writing {
         id:canvas
-        width: 369;
-        height: 263;
+        width: Zinnia.drawing_width;
+        height: Zinnia.drawing_height;
         x: 200
         y: 0
+        // set the handwritingEngine in the writing zone
+        engine: Zinnia
     }
 
-    Text { id: text; 
-        width: 140;
-        font.family: "Helvetica"
-        font.pointSize: 42
-        wrapMode: Text.Wrap;
-        anchors.top: parent.top;
-        anchors.right: parent.right;
-        anchors.rightMargin: 20;
-        anchors.topMargin: -10;
-        text: "" 
-    } 
+    // Presenting the results on the right
+    Flow {
+        anchors.top: root.top;
+        anchors.left: canvas.right
+        anchors.right: root.right
+
+        Repeater {
+            model: Zinnia.results
+            delegate: Item {
+                id: delegateItem
+                width: 99
+                height: delegateText.height
+                Rectangle{
+                    id: delegateBackground
+                    anchors.fill: parent;
+                    color: "transparent"
+                    opacity: .5
+                }
+                Text {
+                    id: delegateText
+                    width: parent.width
+                    font.pointSize: 42
+                    text: modelData
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onPressed: delegateBackground.color = "black"
+                    onReleased: delegateBackground.color = "transparent"
+                    // Print the selected result
+                    onClicked: console.log(modelData)
+                }
+            }
+        }
+    }
 
     Item {
         id:clearbutton
